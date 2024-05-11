@@ -1,0 +1,142 @@
+%\usepackage{float}
+% for subfigures
+% relative path
+%\graphicspath{{subdir1/}{subdir2/}{subdir3/}...{subdirn/}}
+%% User-defined commands
+%\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}     % adjust page margins
+
+
+\documentclass[12pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[latin9]{inputenc}
+\usepackage[a4paper]{geometry}
+\usepackage{color}
+\usepackage{array}
+\usepackage[capposition=top]{floatrow}
+\usepackage{multirow}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{esint}
+\usepackage[authoryear]{natbib}
+\usepackage{ulem}
+\usepackage{arydshln}
+\usepackage{rotating}
+\usepackage[unicode=true,
+bookmarks=true,bookmarksnumbered=false,bookmarksopen=true,bookmarksopenlevel=1,
+breaklinks=true,pdfborder={0 0 1},backref=section,colorlinks=true]{hyperref}
+\usepackage{booktabs}
+\usepackage{amsthm}
+\usepackage{color}
+\usepackage{placeins}
+\usepackage{subcaption}
+\usepackage{amsfonts}
+\usepackage[normalem]{ulem}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{enumitem}
+
+\setcounter{MaxMatrixCols}{10}
+%TCIDATA{OutputFilter=Latex.dll}
+%TCIDATA{Version=5.50.0.2953}
+%TCIDATA{<META NAME="SaveForMode" CONTENT="1">}
+%TCIDATA{BibliographyScheme=BibTeX}
+%TCIDATA{LastRevised=Saturday, May 11, 2024 22:48:00}
+%TCIDATA{<META NAME="GraphicsSave" CONTENT="32">}
+
+\geometry{verbose}
+\PassOptionsToPackage{normalem}{ulem}
+\hypersetup{
+plainpages=false,urlcolor=magenta,citecolor=magenta,linkcolor=blue,pdfstartview=FitH,pdfview=FitH,plainpages=false,urlcolor=blue,citecolor=blue,linkcolor=blue,pdfstartview=FitH,pdfview=FitH}
+\makeatletter
+\graphicspath{{Figures/}} 
+\setlength{\marginparwidth}{0in} \setlength{\marginparsep}{0in}
+\setlength{\oddsidemargin}{0in} \setlength{\evensidemargin}{0in}
+\setlength{\textwidth}{6.35in} \setlength{\topmargin}{-.50in}
+\setlength{\textheight}{9.45in}
+\renewcommand{\baselinestretch}{1.2}\small\normalsize
+\providecommand{\tabularnewline}{\\}
+\newcommand{\ssskip}{\vspace*{0.05cm}}
+\newcommand{\sskip}{\vspace*{0.15cm}}
+\newcommand{\lskip}{\vspace*{0.45cm}}
+\makeatother
+
+\input{tcilatex}
+
+\begin{document}
+
+\title{\textbf{Aiyagari model with progressive taxes}}
+\date{\today }
+\author{}
+\maketitle
+
+\section{Model}
+
+Here I present a brief description of the model. Households face the
+following problem:%
+\begin{equation*}
+V\left( a,z\right) =\max_{c,a^{\prime },h}\left\{ \frac{c^{1-\sigma }-1}{%
+1-\sigma }+\beta \sum_{z^{\prime }}\Gamma _{z,z^{\prime }}V\left( a^{\prime
+},z^{\prime }\right) \right\} 
+\end{equation*}%
+subject to%
+\begin{equation*}
+y=wz+ra
+\end{equation*}%
+\begin{equation*}
+c+a^{\prime }=a+y-T(y)
+\end{equation*}%
+\begin{equation*}
+c\geq 0,\ \ a^{\prime }\geq 0.
+\end{equation*}%
+The individual state variables are asset holdings $a$ (endogenous state
+variable) and the idiosyncratic shock $z$ (exogenous state variable ). $%
+\Gamma _{z,z^{\prime }}$ denotes the transition matrix of the Markov chain
+over $z$, with $\sum_{z^{\prime }}\Gamma _{z,z^{\prime }}=1$ for all $z$.
+Taxes are given by%
+\begin{equation*}
+T(y)=y-\lambda y^{1-\tau }.
+\end{equation*}%
+The parameter $\tau $ denotes tax progressivity. If $\tau =0$, then taxes
+are proportional to income, with an average tax rate equal to $\left(
+1-\lambda \right) $. If instead $\tau \in \left( 0,1\right) $, the average
+tax rate%
+\begin{equation*}
+\frac{T(y)}{y}=1-\lambda y^{-\tau }
+\end{equation*}%
+is increasing with respect to income, i.e. the tax system is progressive.
+Households choose consumption $c$, and next-period assets $a^{\prime }$. The
+policy function are denoted as $c=g_{c}\left( a,z\right) $, and $a^{\prime
+}=g_{a}\left( a,z\right) $.
+
+Factor prices $r$ and $w$ are pinned down by the first-order conditions of
+the representative firm%
+\begin{equation*}
+r=\left( 1-\alpha \right) \left( \frac{K}{L}\right) ^{\alpha -1}-\delta 
+\end{equation*}%
+\begin{equation*}
+w=\left( 1-\alpha \right) \left( \frac{K}{L}\right) ^{\alpha }
+\end{equation*}%
+and the aggregate production function is 
+\begin{equation*}
+Y=K^{\alpha }L^{1-\alpha }.
+\end{equation*}
+
+The market clearing conditions are%
+\begin{equation*}
+K=\int g_{a}\left( a,z\right) d\mu \left( a,z\right) 
+\end{equation*}%
+\begin{equation*}
+L=\int zd\mu \left( a,z\right) ,
+\end{equation*}%
+where $\mu $ is the stationary distribution. The government budget
+constraint is simply%
+\begin{equation*}
+G=\int T(wz+ra)d\mu (a,z)
+\end{equation*}%
+where $G$ denotes wasteful government spending. Then, by Walras' law, the
+aggregate resource constraint of the economy is automatically satisfied:%
+\begin{equation*}
+C+\delta K+G=K^{\alpha }L^{1-\alpha }.
+\end{equation*}
+
+\end{document}
