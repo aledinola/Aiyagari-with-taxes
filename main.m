@@ -6,6 +6,9 @@ format long g
 folder1 = 'C:\Users\aledi\Documents\GitHub\VFIToolkit-matlab';
 addpath(genpath(folder1))
 
+%% Set options
+me_shock = 'tauchen'; % 'rouwenhorst' vs 'tauchen'
+
 %% Set parameters
 
 par.beta  = 0.96;
@@ -32,9 +35,15 @@ n_z   = 7;
 ave_z = 0.0;
 rho_z = 0.6;
 sig_z = sqrt(0.04*(1-rho_z^2)); 
-%[pi_z,z_grid_log]=markovapprox(rho_z,sig_z,ave_z,3.0,n_z);
-[z_grid_log,pi_z] = rouwenhorst(n_z,ave_z,rho_z,sig_z);
-
+switch me_shock
+    case 'rouwenhorst'
+        [z_grid_log,pi_z] = rouwenhorst(n_z,ave_z,rho_z,sig_z);
+    case 'tauchen'
+        Tauchen_q=3; 
+        [z_grid_log,pi_z]=discretizeAR1_Tauchen(0,rho_z,sig_z,n_z,Tauchen_q);
+    otherwise
+        error('Selected me_shock not available')
+end
 z_grid = exp(z_grid_log);
 aux = pi_z^1000;
 z_distrib = aux(1,:);
