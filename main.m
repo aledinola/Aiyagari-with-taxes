@@ -18,7 +18,7 @@ par.tau_hsv = 0.1;
 % With proportional taxes, tax_rate=1-lambda
 %par.lam_hsv = 0.9;
 %par.tau_hsv = 0;
-% No taxes
+% No taxes %TODO distrib gives error unless I turn off Tan improv
 %par.lam_hsv = 1;
 %par.tau_hsv = 0;
 
@@ -65,21 +65,19 @@ GEPriceParamNames={'K_to_L'};
 % Set initial value for K/L
 par.K_to_L = K_ss/Expectation_l;
 
-%% VFI
-vfoptions.verbose = 1;
-
-fprintf('Start VFI... \n')
-[V1,Policy]=ValueFnIter_Case1(n_d,n_a,n_z,d_grid,a_grid,z_grid, pi_z, ReturnFn, par, DiscountFactorParamNames, [], vfoptions);
-
-%% Stationary distribution
-fprintf('Start distribution... \n')
-simoptions.verbose=1;
-StatDist=StationaryDist_Case1(Policy,n_d,n_a,n_z,pi_z, simoptions);
+% %% My stationary distribution function
+% fprintf('Start distribution... \n')
+% simoptions.verbose=1;
+% tic
+% StatDist=StationaryDist_Case1_ale(Policy,n_d,n_a,n_z,pi_z, simoptions);
+% toc
 
 %% Do general equilibrium
 vfoptions.verbose = 0;
 simoptions.verbose = 0;
 heteroagentoptions.verbose=1; % verbose means that you want it to give you feedback on what is going on
+heteroagentoptions.toleranceGEprices=10^(-6); % Accuracy of general eqm prices
+heteroagentoptions.toleranceGEcondns=10^(-6); % Accuracy of general eqm eqns
 %heteroagentoptions.fminalgo=0;
 fprintf('Calculating price corresponding to the stationary general eqm \n')
 [p_eqm,~,GeneralEqmCondn]=HeteroAgentStationaryEqm_Case1(n_d,n_a,n_z,0,pi_z,d_grid,a_grid,z_grid,ReturnFn,FnsToEvaluate,GeneralEqmEqns,par,DiscountFactorParamNames,[],[],[],GEPriceParamNames,heteroagentoptions,simoptions, vfoptions);
@@ -92,6 +90,16 @@ par.K_to_L = p_eqm.K_to_L; % Put the equilibrium interest rate into Params so we
 % par.w = (1-par.alpha)*par.K_to_L^par.alpha;
 
 [par.r,par.w] = fun_prices(par.K_to_L,par.alpha,par.delta);
+
+% VFI
+vfoptions.verbose = 1;
+fprintf('Start VFI... \n')
+[V1,Policy]=ValueFnIter_Case1(n_d,n_a,n_z,d_grid,a_grid,z_grid, pi_z, ReturnFn, par, DiscountFactorParamNames, [], vfoptions);
+% Stationary distribution
+fprintf('Start distribution... \n')
+simoptions.verbose=1;
+simoptions.tanimprovement=1; 
+StatDist=StationaryDist_Case1(Policy,n_d,n_a,n_z,pi_z, simoptions);
 
 %% Calculate distributional statistics
 fprintf('Distributional statistics... \n')
@@ -222,4 +230,8 @@ mu_a = sum(StatDist,2);
 kkk = 500;
 figure
 plot(a_grid(1:kkk),mu_a(1:kkk),'LineWidth',2)
+
+figure
+plot(a_grid,cumsum(mu_a),'LineWidth',2)
+
 
