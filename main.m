@@ -3,7 +3,7 @@ clc
 close all
 format long g
 % This is the folder where the VFI toolkit files are saved
-folder1 = 'C:\Users\aledi\Documents\GitHub\VFIToolkit-matlab';
+folder1 = 'C:\Users\aledi\OneDrive\Documents\GitHub\VFIToolkit-matlab\VFIToolkit-matlab';
 addpath(genpath(folder1))
 
 %% Set options
