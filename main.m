@@ -3,7 +3,7 @@ clc
 close all
 format long g
 % This is the folder where the VFI toolkit files are saved
-folder1 = 'C:\Users\aledi\OneDrive\Documents\GitHub\VFIToolkit-matlab\VFIToolkit-matlab';
+folder1 = 'C:\Users\aledi\OneDrive\Desktop\vfi_toolkit\VFIToolkit-matlab';
 addpath(genpath(folder1))
 
 %% Set options
@@ -82,8 +82,9 @@ par.K_to_L = K_ss/Expectation_l;
 % toc
 
 %% Do general equilibrium
-vfoptions.verbose = 0;
-simoptions.verbose = 0;
+vfoptions.verbose   = 0;
+vfoptions.lowmemory = 1;
+simoptions.verbose  = 0;
 heteroagentoptions.verbose=1; % verbose means that you want it to give you feedback on what is going on
 heteroagentoptions.toleranceGEprices=10^(-6); % Accuracy of general eqm prices
 heteroagentoptions.toleranceGEcondns=10^(-6); % Accuracy of general eqm eqns
