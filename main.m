@@ -3,7 +3,8 @@ clc
 close all
 format long g
 % This is the folder where the VFI toolkit files are saved
-folder1 = 'C:\Users\aledi\OneDrive\Desktop\vfi_toolkit\VFIToolkit-matlab';
+%folder1 = 'C:\Users\aledi\OneDrive\Desktop\vfi_toolkit\VFIToolkit-matlab';
+folder1 = 'C:\Users\aledi\Documents\GitHub\VFIToolkit-matlab';
 addpath(genpath(folder1))
 
 %% Set options
@@ -88,7 +89,7 @@ simoptions.verbose  = 0;
 heteroagentoptions.verbose=1; % verbose means that you want it to give you feedback on what is going on
 heteroagentoptions.toleranceGEprices=10^(-6); % Accuracy of general eqm prices
 heteroagentoptions.toleranceGEcondns=10^(-6); % Accuracy of general eqm eqns
-%heteroagentoptions.fminalgo=0;
+heteroagentoptions.fminalgo=7;
 fprintf('Calculating price corresponding to the stationary general eqm \n')
 [p_eqm,~,GeneralEqmCondn]=HeteroAgentStationaryEqm_Case1(n_d,n_a,n_z,0,pi_z,d_grid,a_grid,z_grid,ReturnFn,FnsToEvaluate,GeneralEqmEqns,par,DiscountFactorParamNames,[],[],[],GEPriceParamNames,heteroagentoptions,simoptions, vfoptions);
 disp(GeneralEqmCondn)
@@ -174,7 +175,7 @@ fprintf('Int. rate  : %f \n',par.r)
 fprintf('Wage       : %f \n',par.w)
 fprintf('C/Y        : %f \n',agg.CC/agg.YY)
 fprintf('I/Y        : %f \n',agg.II/agg.YY)
-fprintf('res GE     : %f \n',GeneralEqmCondn)
+fprintf('res GE     : %f \n',GeneralEqmCondn.CapitalMarket)
 fprintf('res_walras : %f \n',resid_walras)
 
 % fprintf('w*L/Y      : %f \n',p_eq.w*agg.LL/agg.YY)
