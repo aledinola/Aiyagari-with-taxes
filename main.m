@@ -3,8 +3,8 @@ clc
 close all
 format long g
 % This is the folder where the VFI toolkit files are saved
-%folder1 = 'C:\Users\aledi\OneDrive\Desktop\vfi_toolkit\VFIToolkit-matlab';
-folder1 = 'C:\Users\aledi\Documents\GitHub\VFIToolkit-matlab';
+folder1 = 'C:\Users\aledi\OneDrive\Documents\GitHub\VFIToolkit-matlab';
+%folder1 = 'C:\Users\aledi\Documents\GitHub\VFIToolkit-matlab';
 addpath(genpath(folder1))
 
 %% Set options
@@ -17,14 +17,14 @@ par.crra  = 2.0;
 par.delta = 0.08;
 par.alpha = 0.36;
 % With progressive taxes
-par.lam_hsv = 0.9;
-par.tau_hsv = 0.1;
+%par.lam_hsv = 0.9;
+%par.tau_hsv = 0.1;
 % With proportional taxes, tax_rate=1-lambda
 %par.lam_hsv = 0.9;
 %par.tau_hsv = 0;
-% No taxes %TODO distrib gives error unless I turn off Tan improv
-%par.lam_hsv = 1;
-%par.tau_hsv = 0;
+% No taxes 
+par.lam_hsv = 1;
+par.tau_hsv = 0;
 
 %% Guess for prices
 % In the absence of idiosyncratic risk, the steady state equilibrium is given by
@@ -49,6 +49,7 @@ z_grid = exp(z_grid_log);
 aux = pi_z^1000;
 z_distrib = aux(1,:);
 Expectation_l = dot(z_grid,z_distrib);
+z_grid = z_grid/Expectation_l;
 
 %% Setup grids for a and d variables
 n_d = 0;
@@ -73,7 +74,7 @@ GeneralEqmEqns.CapitalMarket = @(K_to_L,K,L) K_to_L-K/L;
 
 GEPriceParamNames={'K_to_L'};
 % Set initial value for K/L
-par.K_to_L = K_ss/Expectation_l;
+par.K_to_L = K_ss;
 
 % %% My stationary distribution function
 % fprintf('Start distribution... \n')
@@ -89,7 +90,7 @@ simoptions.verbose  = 0;
 heteroagentoptions.verbose=1; % verbose means that you want it to give you feedback on what is going on
 heteroagentoptions.toleranceGEprices=10^(-6); % Accuracy of general eqm prices
 heteroagentoptions.toleranceGEcondns=10^(-6); % Accuracy of general eqm eqns
-heteroagentoptions.fminalgo=7;
+heteroagentoptions.fminalgo=1;
 fprintf('Calculating price corresponding to the stationary general eqm \n')
 [p_eqm,~,GeneralEqmCondn]=HeteroAgentStationaryEqm_Case1(n_d,n_a,n_z,0,pi_z,d_grid,a_grid,z_grid,ReturnFn,FnsToEvaluate,GeneralEqmEqns,par,DiscountFactorParamNames,[],[],[],GEPriceParamNames,heteroagentoptions,simoptions, vfoptions);
 disp(GeneralEqmCondn)
@@ -240,7 +241,7 @@ mu_a = sum(StatDist,2);
 
 kkk = 500;
 figure
-plot(a_grid(1:kkk),mu_a(1:kkk),'LineWidth',2)
+plot(a_grid,mu_a,'LineWidth',2)
 
 figure
 plot(a_grid,cumsum(mu_a),'LineWidth',2)
